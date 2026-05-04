@@ -785,7 +785,7 @@ func MapExchangeIdToLegalEntity:
 
 set party:
     Party {
-        partyId: fpmlExchangeId extract MapPartyIdentifier2,
+        partyId: fpmlExchangeId extract MapExchangeIdToPartyIdentifier,
         name: MapStringWithScheme(
                     fpmlExchangeId -> value,
                     fpmlExchangeId -> exchangeIdScheme
@@ -793,7 +793,7 @@ set party:
         ...
     }
 
-func MapPartyIdentifier2:
+func MapExchangeIdToPartyIdentifier:
     inputs:
         fpmlExchangeId fpml.ExchangeId (0..1)
     output:
@@ -808,26 +808,28 @@ func MapPartyIdentifier2:
 
 func MapAssetPartyRole:
     inputs:
-        party Party (1..1)
+        assetParty Party (1..1)
+        assetPartyRoleEnum AssetPartyRoleEnum (1..1)
     output:
         assetPartyRole AssetPartyRole (1..1)
 
     set assetPartyRole->partyReference:
-        party
+        assetParty
     set assetPartyRole->role:
-        AssetPartyRoleEnum->Exchange
+        assetPartyRoleEnum
 
 func MapAssetAncillaryPartyRole:
     inputs:
-        party Party (1..1)
+        assetAncillaryparty Party (1..1)
+        assetAncillaryPartyRoleEnum AssetAncillaryPartyRoleEnum (1..1)
     output:
         assetAncillaryPartyRole AssetAncillaryPartyRole (0..1)
 
     set assetAncillaryPartyRole->partyReference:
-        party
+        assetAncillaryparty
 
     set assetAncillaryPartyRole->role:
-        AssetAncillaryPartyRoleEnum->RelatedExchange
+        assetAncillaryPartyRoleEnum
 
 
 func MapPayerReceiver:
